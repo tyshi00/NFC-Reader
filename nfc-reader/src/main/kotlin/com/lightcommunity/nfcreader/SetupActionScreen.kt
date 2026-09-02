@@ -158,7 +158,7 @@ class SetupActionViewModel(
         return when (s.actionType) {
             ActionType.WEBHOOK -> s.webhookUrl.isNotBlank()
             ActionType.NOTE -> s.noteText.isNotBlank()
-            // Blank is allowed: a contact tag supplies its own number at scan time.
+            // Blank is fine: a contact tag brings its own number.
             ActionType.DIAL -> true
         }
     }

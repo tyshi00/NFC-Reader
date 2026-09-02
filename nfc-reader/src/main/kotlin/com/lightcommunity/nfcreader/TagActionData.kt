@@ -205,10 +205,8 @@ object ActionExecutor {
     }
 
     /**
-     * Asks LightOS to open the dialer with a number. The number comes from the
-     * action, or — when left blank — from the contact tag that was just scanned.
-     * `OpenDialer` is the one cross-tool call the SDK sanctions; whether a given
-     * LightOS build honours it for community tools is not guaranteed.
+     * Number from the action, or the contact tag if blank. Not every LightOS
+     * build honours the SDK's OpenDialer.
      */
     private suspend fun openDialer(action: TagAction, scan: Scan?): ActionResult {
         val number = action.dialNumber?.takeIf { it.isNotBlank() }
@@ -294,10 +292,10 @@ object ActionExecutor {
 
 /** What happened when a tag was tapped. */
 sealed interface TapOutcome {
-    /** Saved to history; no action is bound to this tag. */
+    /** Saved; no action bound. */
     data class Scanned(val scanId: Long, val scan: Scan) : TapOutcome
 
-    /** Saved to history and the tag's action ran. */
+    /** Saved and the action ran. */
     data class ActionRan(
         val scanId: Long,
         val scan: Scan,
@@ -305,15 +303,11 @@ sealed interface TapOutcome {
         val result: ActionResult,
     ) : TapOutcome
 
-    /** Something threw before we could finish — surfaced instead of failing silently. */
+    /** Couldn't read or save the tag. */
     data class Failed(val message: String) : TapOutcome
 }
 
-/**
- * The single path a tap takes: save it, look up any bound action, run it.
- * Shared by the full-screen [ScanScreen] and the ambient reader on [HomeScreen]
- * so both behave identically. Never throws — failures come back as [TapOutcome.Failed].
- */
+/** Save a tap, look up its action, run it. Never throws; failures return [TapOutcome.Failed]. */
 class NfcTapProcessor(
     private val scanRepo: NfcReaderRepository,
     private val actionRepo: TagActionRepository,

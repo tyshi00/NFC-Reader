@@ -31,33 +31,20 @@ import kotlin.time.Duration.Companion.seconds
 
 private const val TAG = "AmbientNfc"
 
-/**
- * Makes a tag work on every screen, not just the scanner. [HomeScreen] — the
- * initial screen, which owns both repositories — publishes the processor once;
- * every other screen just calls [AmbientNfcReader] and the tap runs its action.
- *
- * NFC is still foreground-only: this does nothing while the app is closed or
- * the screen is off.
- */
+/** Lets a tapped tag run its action from any screen. Foreground only. */
 object AmbientNfc {
+    /** Set once by [HomeScreen], which owns both repositories. */
     @Volatile
     var processor: NfcTapProcessor? = null
 
-    /** Pinged after an ambient tap is saved so the history list can refresh. */
+    /** Pinged after an ambient tap saves, so the history list can refresh. */
     val scansChanged = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
 }
 
-/**
- * Runs the NFC reader while the calling screen is showing and turns each tap
- * into a result modal drawn over the app.
- *
- * Not for [ScanScreen] — that screen runs its own full-screen reader. The SDK
- * hands taps to whichever screen is on top, so several of these can be mounted
- * in the back stack at once without a tag being processed twice.
- */
+/** Runs the reader while its screen shows; each tap becomes a result modal. Not for [ScanScreen]. */
 @Composable
 fun AmbientNfcReader() {
     val processor = AmbientNfc.processor ?: return

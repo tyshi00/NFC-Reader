@@ -66,9 +66,7 @@ class ScanScreenViewModel(
     val state: StateFlow<ScanState> = _state.asStateFlow()
 
     fun onTap(tap: LightNfcTap) {
-        // Only ignore a tap while one is already being processed. A tap that
-        // lands while an earlier result is still on screen is still handled —
-        // otherwise it would be silently dropped.
+        // Ignore a tap only mid-processing; a tap over a shown result still counts.
         if (_state.value == ScanState.Processing) return
         _state.value = ScanState.Processing
         viewModelScope.launch(Dispatchers.IO) {

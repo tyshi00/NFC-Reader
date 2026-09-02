@@ -38,8 +38,7 @@ object ManifestGenerator {
         val screenOrientation = metadata.orientation?.let {
             "\n            |            android:screenOrientation=\"${xmlAttr(it)}\""
         }.orEmpty()
-        // Optional launcher icon. LightOS shows the label, not an icon, but a
-        // sideloaded APK (Obtainium, a normal Android launcher) wants one.
+        // LightOS shows the label; a sideloaded APK still wants an icon.
         val applicationIcon = metadata.icon?.let {
             "\n            |        android:icon=\"@mipmap/${xmlAttr(it)}\""
         }.orEmpty()

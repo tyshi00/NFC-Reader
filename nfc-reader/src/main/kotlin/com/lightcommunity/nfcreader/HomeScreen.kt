@@ -51,7 +51,7 @@ class HomeScreenViewModel(private val repo: NfcReaderRepository) : LightViewMode
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
     init {
-        // A tag tapped on any screen adds to history; keep this list current.
+        // A tag tapped on any screen adds to history.
         viewModelScope.launch {
             AmbientNfc.scansChanged.collect { reload() }
         }
@@ -84,8 +84,6 @@ class HomeScreen(sealedActivity: SealedLightActivity) :
     }
 
     init {
-        // Publish the tap processor so every other screen's AmbientNfcReader()
-        // can run a tag's action.
         AmbientNfc.processor = NfcTapProcessor(repo, actionRepo)
     }
 

@@ -6,8 +6,7 @@ versionName = "1.1.0"
 permissions = ["android.permission.NFC", "android.permission.INTERNET"]
 capabilities = []
 orientation = "portrait"
-# Launcher icon for sideloaded installs (Obtainium, a normal Android launcher).
-# LightOS itself shows the label, not an icon.
+# Launcher icon for sideloaded installs; LightOS shows the label.
 icon = "ic_launcher"
 # Switch to "com.thelightphone.sdk.emulator" for emulator testing.
 serverPackage = "com.lightos"

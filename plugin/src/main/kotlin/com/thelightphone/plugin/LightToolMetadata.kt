@@ -120,10 +120,8 @@ data class LightToolMetadata(
         }
 
         /**
-         * Optional launcher icon. The value is a resource name; the generated
-         * manifest points `android:icon` at `@mipmap/<name>` and the tool ships
-         * the matching resource. Omit it and no `android:icon` is emitted, which
-         * is the right thing on LightOS itself (the launcher shows the label).
+         * Optional launcher icon (fork addition). A resource name; the manifest
+         * gets `android:icon="@mipmap/<name>"`. Omit for none.
          */
         private fun validateIcon(value: String?): String? {
             if (value == null) return null
