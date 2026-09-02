@@ -48,26 +48,22 @@ off (that beep is Android's, not the tool's).
 
 ### Prerequisites
 
-- Android Studio with Kotlin/Compose support
-- A clone of the [Light SDK](https://github.com/lightphone/light-sdk)
+- Android Studio with Kotlin/Compose support (or the CLI with JDK 17 + Android SDK)
 
-### Integration
+### Build and run
 
-1. Copy the `nfc-reader/` directory into your Light SDK checkout, alongside the existing `tool/` module.
+In this repo the module is already wired into `settings.gradle.kts` and
+`lighttool.toml` targets a real phone (`serverPackage = "com.lightos"`):
 
-2. In `settings.gradle.kts`, add:
-   ```kotlin
-   include(":nfc-reader")
-   ```
+```
+./gradlew :nfc-reader:installDebug
+```
 
-3. Update `lighttool.toml` if needed:
-   - For **emulator** testing: `serverPackage = "com.thelightphone.sdk.emulator"` (default)
-   - For a **real LP3**: `serverPackage = "com.lightos"`
+For the **LightOS emulator** instead, set `serverPackage = "com.thelightphone.sdk.emulator"`
+in `lighttool.toml`.
 
-4. Build and run:
-   ```
-   ./gradlew :nfc-reader:installDebug
-   ```
+To drop this module into a separate Light SDK checkout, copy `nfc-reader/` alongside the
+`tool/` module and add `include(":nfc-reader")` to that checkout's `settings.gradle.kts`.
 
 ### Testing NFC
 
@@ -100,4 +96,4 @@ The tool declares `android.permission.NFC` in `lighttool.toml`. This is on the S
 
 ## License
 
-Same as the Light SDK — see the SDK repository for license terms.
+MIT — see [`LICENSE`](../LICENSE).
