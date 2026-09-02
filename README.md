@@ -28,6 +28,22 @@ Built on the [Light SDK](https://github.com/lightphone/light-sdk).
 
 Full detail: [`nfc-reader/README.md`](nfc-reader/README.md).
 
+## Screenshots
+
+<p align="center">
+  <img src="nfc-reader/docs/screenshots/home.png" width="30%" alt="Scan history">
+  <img src="nfc-reader/docs/screenshots/scan.png" width="30%" alt="Scan prompt">
+  <img src="nfc-reader/docs/screenshots/contact.png" width="30%" alt="Contact tag">
+</p>
+<p align="center">
+  <img src="nfc-reader/docs/screenshots/tag-details.png" width="30%" alt="URI tag details">
+  <img src="nfc-reader/docs/screenshots/actions.png" width="30%" alt="Actions list">
+  <img src="nfc-reader/docs/screenshots/edit-action.png" width="30%" alt="Editing a webhook action">
+</p>
+
+Scan history and the scan prompt; a contact tag and a URI tag; the actions list and a
+webhook action being edited.
+
 ## Repo layout
 
 This repository is a checkout of the Light SDK with the tool added as its own module.

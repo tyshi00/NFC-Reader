@@ -12,6 +12,7 @@ class ManifestGeneratorTest {
         capabilities: List<String> = emptyList(),
         serverPackage: String = "com.lightos",
         orientation: String? = null,
+        icon: String? = null,
     ): String = ManifestGenerator.render(
         LightToolMetadata(
             toolId = "com.example.mytool",
@@ -22,6 +23,7 @@ class ManifestGeneratorTest {
             capabilities = capabilities,
             serverPackage = serverPackage,
             orientation = orientation,
+            icon = icon,
         )
     )
 
@@ -65,6 +67,20 @@ class ManifestGeneratorTest {
     @Test
     fun `portrait orientation is emitted on activity`() {
         assertTrue(render(orientation = "portrait").contains("""android:screenOrientation="portrait"""))
+    }
+
+    @Test
+    fun `icon is omitted by default`() {
+        assertFalse(render().contains("android:icon"))
+    }
+
+    @Test
+    fun `icon is emitted on the application element when set`() {
+        val xml = render(icon = "ic_launcher")
+        assertTrue(
+            xml.contains("""android:icon="@mipmap/ic_launcher""""),
+            "expected android:icon on <application>; got:\n$xml",
+        )
     }
 
     @Test

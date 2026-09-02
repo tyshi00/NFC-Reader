@@ -38,6 +38,11 @@ object ManifestGenerator {
         val screenOrientation = metadata.orientation?.let {
             "\n            |            android:screenOrientation=\"${xmlAttr(it)}\""
         }.orEmpty()
+        // Optional launcher icon. LightOS shows the label, not an icon, but a
+        // sideloaded APK (Obtainium, a normal Android launcher) wants one.
+        val applicationIcon = metadata.icon?.let {
+            "\n            |        android:icon=\"@mipmap/${xmlAttr(it)}\""
+        }.orEmpty()
         val capabilityMarkers = marginBlock(
             metadata.capabilities.flatMap { capability ->
                 listOf(
@@ -65,7 +70,7 @@ object ManifestGenerator {
             """
             |    <application
             |        android:name="com.thelightphone.sdk.LightSdkApplication"
-            |        android:label="${xmlAttr(metadata.label)}"
+            |        android:label="${xmlAttr(metadata.label)}"$applicationIcon
             |        android:supportsRtl="true"
             |        android:theme="@style/LightSdk.Theme.Splash">
             |        <meta-data

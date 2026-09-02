@@ -23,6 +23,7 @@ data class LightToolMetadata(
     val capabilities: List<String> = emptyList(),
     val serverPackage: String,
     val orientation: String? = null,
+    val icon: String? = null,
 ) {
     companion object {
         const val FILE_NAME: String = "lighttool.toml"
@@ -62,6 +63,7 @@ data class LightToolMetadata(
                 capabilities = validateCapabilities(tool.tomlStringList("capabilities")),
                 serverPackage = validateServerPackage(tool.tomlString("serverPackage")),
                 orientation = validateOrientation(tool.tomlString("orientation")),
+                icon = validateIcon(tool.tomlString("icon")),
             )
         }
 
@@ -113,6 +115,21 @@ data class LightToolMetadata(
             require(value in LightToolPolicy.ALLOWED_ORIENTATIONS) {
                 "tool.orientation must be one of: " +
                     LightToolPolicy.ALLOWED_ORIENTATIONS.sorted().joinToString() + "; got '$value'"
+            }
+            return value
+        }
+
+        /**
+         * Optional launcher icon. The value is a resource name; the generated
+         * manifest points `android:icon` at `@mipmap/<name>` and the tool ships
+         * the matching resource. Omit it and no `android:icon` is emitted, which
+         * is the right thing on LightOS itself (the launcher shows the label).
+         */
+        private fun validateIcon(value: String?): String? {
+            if (value == null) return null
+            require(LightToolPolicy.RESOURCE_NAME_PATTERN.matches(value)) {
+                "tool.icon must be a resource name: lowercase letter first, then " +
+                    "lowercase letters, digits, or underscores; got '$value'"
             }
             return value
         }
@@ -170,6 +187,7 @@ object LightToolPolicy {
     val VERSION_NAME_PATTERN: Regex =
         Regex("""^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$""")
     val TOOL_LABEL_PATTERN: Regex = Regex("^[^\\x00-\\x1f<>]{1,50}$")
+    val RESOURCE_NAME_PATTERN: Regex = Regex("^[a-z][a-z0-9_]*$")
     const val MAX_VERSION_CODE: Int = 2_100_000_000
     val ALLOWED_ORIENTATIONS: Set<String> = setOf("portrait")
 
