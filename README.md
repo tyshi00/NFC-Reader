@@ -6,9 +6,9 @@ can fire a webhook, show a note, or open the dialer.
 
 Built on the [Light SDK](https://github.com/lightphone/light-sdk).
 
-> **Status:** work in progress, tested on real LP3 hardware. LightOS does not yet have a
-> way to install community tools cleanly, so for now this is sideloaded over ADB. The
-> `test` branch is the active development branch.
+> **Status:** v1.0.0, tested on real LP3 hardware. LightOS does not yet have a way to
+> install community tools cleanly, so for now this is sideloaded over ADB. `main` is the
+> stable branch; `test` is used for in-progress work.
 
 ## Features
 

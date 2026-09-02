@@ -2,7 +2,7 @@
 id = "com.lightcommunity.nfcreader"
 label = "NFC Reader"
 versionCode = 2
-versionName = "1.1.0"
+versionName = "1.0.0"
 permissions = ["android.permission.NFC", "android.permission.INTERNET"]
 capabilities = []
 orientation = "portrait"

@@ -169,7 +169,7 @@ class SettingsScreen(
 
                     // Version info
                     LightText(
-                        text = "NFC Reader v1.1.0",
+                        text = "NFC Reader v1.0.0",
                         variant = LightTextVariant.Detail,
                         lighten = true,
                         modifier = Modifier.padding(top = 1.5f.gridUnitsAsDp()),
