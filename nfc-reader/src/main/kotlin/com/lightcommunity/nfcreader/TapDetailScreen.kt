@@ -40,10 +40,12 @@ data class TapDetailState(
     val scan: Scan? = null,
     val loading: Boolean = true,
     val exported: Boolean = false,
+    val existingAction: TagAction? = null,
 )
 
 class TapDetailViewModel(
     private val repo: NfcReaderRepository,
+    private val actionRepo: TagActionRepository,
     private val fileShare: LightFileShare,
     private val scanId: Long,
 ) : LightViewModel<Unit>() {
@@ -55,7 +57,12 @@ class TapDetailViewModel(
         super.onScreenShow(screen)
         viewModelScope.launch(Dispatchers.IO) {
             val scan = repo.getScan(scanId)
-            _state.value = TapDetailState(scan = scan, loading = false)
+            val action = scan?.let { actionRepo.getBySerial(it.serialNumber) }
+            _state.value = _state.value.copy(
+                scan = scan,
+                loading = false,
+                existingAction = action,
+            )
         }
     }
 
@@ -91,18 +98,21 @@ class TapDetailViewModel(
 class TapDetailScreen(
     sealedActivity: SealedLightActivity,
     private val repo: NfcReaderRepository,
+    private val actionRepo: TagActionRepository,
     private val scanId: Long,
 ) : LightScreen<Unit, TapDetailViewModel>(sealedActivity) {
 
     override val viewModelClass: Class<TapDetailViewModel>
         get() = TapDetailViewModel::class.java
 
-    override fun createViewModel() = TapDetailViewModel(repo, lightContext.fileShare, scanId)
+    override fun createViewModel() = TapDetailViewModel(repo, actionRepo, lightContext.fileShare, scanId)
 
     @Composable
     override fun Content() {
         val themeColors by LightThemeController.colors.collectAsState()
         val state by viewModel.state.collectAsState()
+
+        AmbientNfcReader()
 
         LightTheme(colors = themeColors) {
             Column(
@@ -175,6 +185,20 @@ class TapDetailScreen(
                                     )
                                 },
                                 contentDescription = "Delete",
+                            ),
+                            LightBarButton.Text(
+                                text = "ACTION",
+                                onClick = {
+                                    navigateTo(
+                                        screenFactory = {
+                                            SetupActionScreen(
+                                                it, actionRepo, repo,
+                                                serial = scan.serialNumber,
+                                                existingAction = state.existingAction,
+                                            )
+                                        },
+                                    )
+                                },
                             ),
                             LightBarButton.Text(
                                 text = if (state.exported) "SAVED" else "SAVE",

@@ -158,7 +158,7 @@ class ScanScreen(
                             scan = s.result.scan,
                             onScanAgain = { viewModel.resetForNextScan() },
                             onViewDetails = {
-                                navigateTo(screenFactory = { TapDetailScreen(it, repo, s.result.scanId) })
+                                navigateTo(screenFactory = { TapDetailScreen(it, repo, actionRepo, s.result.scanId) })
                                 viewModel.resetForNextScan()
                             },
                             onEditAction = {
@@ -174,7 +174,7 @@ class ScanScreen(
                             result = s.result,
                             onScanAgain = { viewModel.resetForNextScan() },
                             onViewDetails = {
-                                navigateTo(screenFactory = { TapDetailScreen(it, repo, s.result.scanId) })
+                                navigateTo(screenFactory = { TapDetailScreen(it, repo, actionRepo, s.result.scanId) })
                                 viewModel.resetForNextScan()
                             },
                             onAddAction = {

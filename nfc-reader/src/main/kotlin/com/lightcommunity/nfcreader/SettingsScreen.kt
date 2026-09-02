@@ -92,6 +92,8 @@ class SettingsScreen(
         val themeColors by LightThemeController.colors.collectAsState()
         val state by viewModel.state.collectAsState()
 
+        AmbientNfcReader()
+
         LightTheme(colors = themeColors) {
             Column(
                 modifier = Modifier
@@ -169,7 +171,7 @@ class SettingsScreen(
 
                     // Version info
                     LightText(
-                        text = "NFC Reader v1.0.0",
+                        text = "NFC Reader v1.1.0",
                         variant = LightTextVariant.Detail,
                         lighten = true,
                         modifier = Modifier.padding(top = 1.5f.gridUnitsAsDp()),

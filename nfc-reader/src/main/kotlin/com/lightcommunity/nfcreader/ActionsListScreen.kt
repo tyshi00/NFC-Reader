@@ -69,6 +69,8 @@ class ActionsListScreen(
         val themeColors by LightThemeController.colors.collectAsState()
         val actions by viewModel.actions.collectAsState()
 
+        AmbientNfcReader()
+
         LightTheme(colors = themeColors) {
             Column(
                 modifier = Modifier
