@@ -70,6 +70,11 @@ class ManifestGeneratorTest {
     }
 
     @Test
+    fun `application opts out of android backup`() {
+        assertTrue(render().contains("""android:allowBackup="false""""))
+    }
+
+    @Test
     fun `icon is omitted by default`() {
         assertFalse(render().contains("android:icon"))
     }

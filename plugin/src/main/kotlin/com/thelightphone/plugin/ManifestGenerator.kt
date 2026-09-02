@@ -70,6 +70,7 @@ object ManifestGenerator {
             |    <application
             |        android:name="com.thelightphone.sdk.LightSdkApplication"
             |        android:label="${xmlAttr(metadata.label)}"$applicationIcon
+            |        android:allowBackup="false"
             |        android:supportsRtl="true"
             |        android:theme="@style/LightSdk.Theme.Splash">
             |        <meta-data

@@ -110,13 +110,13 @@ private fun TagActionEntity.toDomain() = TagAction(
     serialNumber = serialNumber,
     label = label,
     actionType = ActionType.entries.firstOrNull { it.name == actionType } ?: ActionType.NOTE,
-    webhookUrl = webhookUrl,
+    webhookUrl = CredentialCipher.open(webhookUrl),
     webhookMethod = webhookMethod,
-    webhookHeaders = webhookHeaders,
-    webhookBody = webhookBody,
+    webhookHeaders = CredentialCipher.open(webhookHeaders),
+    webhookBody = CredentialCipher.open(webhookBody),
     skipSsl = skipSsl,
-    noteText = noteText,
-    dialNumber = dialNumber,
+    noteText = CredentialCipher.open(noteText),
+    dialNumber = CredentialCipher.open(dialNumber),
     createdAt = createdAt,
 )
 
@@ -145,13 +145,13 @@ class TagActionRepository(private val db: TagActionDatabase) {
                 serialNumber = action.serialNumber,
                 label = action.label,
                 actionType = action.actionType.name,
-                webhookUrl = action.webhookUrl,
+                webhookUrl = CredentialCipher.seal(action.webhookUrl),
                 webhookMethod = action.webhookMethod,
-                webhookHeaders = action.webhookHeaders,
-                webhookBody = action.webhookBody,
+                webhookHeaders = CredentialCipher.seal(action.webhookHeaders),
+                webhookBody = CredentialCipher.seal(action.webhookBody),
                 skipSsl = action.skipSsl,
-                noteText = action.noteText,
-                dialNumber = action.dialNumber,
+                noteText = CredentialCipher.seal(action.noteText),
+                dialNumber = CredentialCipher.seal(action.dialNumber),
                 createdAt = action.createdAt,
             ),
         )
@@ -253,7 +253,8 @@ object ActionExecutor {
 
             val client = if (action.skipSsl) trustAllClient else strictClient
             val response = client.newCall(builder.build()).execute()
-            Log.d(TAG, "Webhook ${action.label}: $method $url → ${response.code}")
+            // No URL in the log — it can carry a token in the path or query.
+            Log.d(TAG, "Webhook ${action.label}: $method -> ${response.code}")
 
             if (response.isSuccessful) {
                 ActionResult.Success("${response.code} OK")
@@ -261,7 +262,7 @@ object ActionExecutor {
                 ActionResult.Error("HTTP ${response.code}")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Webhook failed: ${e.message}", e)
+            Log.w(TAG, "Webhook ${action.label} failed")
             ActionResult.Error(e.message ?: "Request failed")
         }
     }
