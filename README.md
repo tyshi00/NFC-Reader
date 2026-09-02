@@ -6,9 +6,10 @@ can fire a webhook, show a note, or open the dialer.
 
 Built on the [Light SDK](https://github.com/lightphone/light-sdk).
 
-> **Status:** v1.0.0, tested on real LP3 hardware. LightOS does not yet have a way to
-> install community tools cleanly, so for now this is sideloaded over ADB. `main` is the
-> stable branch; `test` is used for in-progress work.
+> **Status:** tested on real LP3 hardware. LightOS does not yet have a way to install
+> community tools cleanly, so for now this is sideloaded over ADB. `main` is the stable
+> branch; `test` is used for in-progress work. The current build is on the
+> [Releases](https://github.com/tyshi00/NFC-Reader/releases) page.
 
 ## Features
 
