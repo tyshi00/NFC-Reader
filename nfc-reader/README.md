@@ -1,4 +1,4 @@
-# NFC Reader — a LightOS Tool
+# NFC Reader (LightOS tool)
 
 A minimal NFC tag reader for the Light Phone III, built with the [Light SDK](https://github.com/lightphone/light-sdk).
 
@@ -20,14 +20,14 @@ something instead of just recording it:
 
 | Type | What it does |
 |---|---|
-| **Webhook** | Sends a GET/POST/PUT request — custom headers, body, optional skip-SSL for self-signed certs. Has a **Test** button. |
+| **Webhook** | Sends a GET/POST/PUT request with custom headers, body, optional skip-SSL for self-signed certs. Has a **Test** button. |
 | **Show note** | Displays a saved piece of text. |
-| **Open dialer** | Asks LightOS to open the phone dialer with a number (from the action, or from the contact tag itself). Uses the SDK's `OpenDialer` service method — not every LightOS build honours it yet. |
+| **Open dialer** | Asks LightOS to open the phone dialer with a number (from the action, or from the contact tag itself). Uses the SDK's `OpenDialer` service method. Not every LightOS build honours it yet. |
 
 Assign one from the scan result screen (**ACTION**) or the Actions list. When a tag
 with an action is scanned, the action runs and the result is shown.
 
-**Ambient scanning:** while the app is open — on any screen, not just Scan — tapping a
+**Ambient scanning:** while the app is open on any screen (not just Scan), tapping a
 tag runs its action and logs it, with a short result banner on the History screen.
 NFC is still foreground-only: nothing happens while the app is closed or the screen is
 off (that beep is Android's, not the tool's).
@@ -68,7 +68,7 @@ To drop this module into a separate Light SDK checkout, copy `nfc-reader/` along
 ### Testing NFC
 
 - **Real Light Phone III**: NFC hardware is built in. Just open the tool and tap a tag.
-- **Emulator**: Android emulators don't have NFC hardware, so the tool will show "This phone can't use NFC." — this is expected. The rest of the UI (history, settings, detail screens) still works.
+- **Emulator**: Android emulators don't have NFC hardware, so the tool will show "This phone can't use NFC." This is expected. The rest of the UI (history, settings, detail screens) still works.
 - **Other Android devices**: Any NFC-equipped Android device can run this for testing via ADB sideload.
 
 ## Architecture
@@ -96,4 +96,4 @@ The tool declares `android.permission.NFC` in `lighttool.toml`. This is on the S
 
 ## License
 
-MIT — see [`LICENSE`](../LICENSE).
+MIT. See [`LICENSE`](../LICENSE).
