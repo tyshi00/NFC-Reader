@@ -45,19 +45,6 @@ Full detail: [`nfc-reader/README.md`](nfc-reader/README.md).
 Scan history and the scan prompt; a contact tag and a URI tag; the actions list and a
 webhook action being edited.
 
-## Repo layout
-
-This repository is a checkout of the Light SDK with the tool added as its own module.
-
-| Path | What it is |
-|---|---|
-| [`nfc-reader/`](nfc-reader/) | **The tool.** All of the NFC Reader source |
-| `sdk/`, `plugin/`, `builder/`, `tool/`, `examples/` | Vendored Light SDK, unchanged from upstream |
-| [`README.light-sdk.md`](README.light-sdk.md) | The upstream Light SDK README |
-
-Keeping the SDK in-tree is how Light expects community tools to be built and signed
-(from a public git commit).
-
 ## Build & run
 
 Requires Android Studio (or the command line) with a JDK 17 and the Android SDK.
